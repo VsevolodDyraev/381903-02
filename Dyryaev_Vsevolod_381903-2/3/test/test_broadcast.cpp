@@ -7,6 +7,7 @@
 
 using namespace std;
 
+
 TEST(Broadcast,right_create_obj)
 {
     ASSERT_NO_THROW(Broadcast s1;);
@@ -19,7 +20,7 @@ TEST(Broadcast,simple_expression)
     Synt s1;
     Broadcast b1;
     Queue<string> tmp = s1.synt_analiz(str);
-    int t = b1.broadcast(tmp);
+    int t = b1.broadcast(tmp,str);
 
     EXPECT_EQ(7,t);
 }
@@ -31,7 +32,7 @@ TEST(Broadcast,medium_expression)
     Synt s1;
     Broadcast b1;
     Queue<string> tmp = s1.synt_analiz(str);
-    int t = b1.broadcast(tmp);
+    int t = b1.broadcast(tmp,str);
 
     EXPECT_EQ(-26,t);
 }
@@ -42,8 +43,9 @@ TEST(Broadcast,hard_expression)
     Synt s1;
     Broadcast b1;
     Queue<string> tmp = s1.synt_analiz(str);
-    int t = b1.broadcast(tmp);
+    int t = b1.broadcast(tmp,str);
 
     EXPECT_EQ(116,t);
 }
+
 

@@ -29,6 +29,10 @@ list.h
 /usr/coding/lab/3/broadcast/broadcast.cpp
 broadcast.h
 /usr/coding/lab/3/broadcast/broadcast.h
+vector
+-
 math.h
+-
+iostream
 -
 

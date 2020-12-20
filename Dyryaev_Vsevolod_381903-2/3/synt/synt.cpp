@@ -16,15 +16,15 @@ Queue<string> Synt::synt_analiz(string str)
     int size=0;
     int size2=0;
     
-    //int g=0;
-    //int d=0;
-    //int v=0;
+    int g=0;
+    int d=0;
+    int v=0;
 
     int i = 0;
     while (i < str.length())
     {
         tmp = "";
-        while (str[i] >= '0' && str[i] <= '9')
+        while ((str[i] >= '0' && str[i] <= '9') || (str[i] >= 'a' && str[i] <= 'z'))
         {
             tmp += str[i];
             i++;
@@ -37,7 +37,7 @@ Queue<string> Synt::synt_analiz(string str)
         }
         if(str[i]=='(')
         {
-            size+=3;
+            size+=4;
             oper.put(str[i]);
             i++;
             continue;
@@ -46,7 +46,6 @@ Queue<string> Synt::synt_analiz(string str)
         if (oper.isEmpty())
         {
             oper.put(str[i]);
-            size2=size;
         }
         else
         {
@@ -57,7 +56,7 @@ Queue<string> Synt::synt_analiz(string str)
                 tmp_op = oper.pop();
                 if(str[i]==')')
                 {
-                    size-=3;
+                    size-=4;
                     while(tmp_op!='(')
                     {
                         tmp = tmp_op;
@@ -65,6 +64,17 @@ Queue<string> Synt::synt_analiz(string str)
                         if(tmp!=")")
                             polsk.put(tmp);
                         tmp_op = oper.pop();
+                    }
+                    tmp_op=oper.pop();
+
+                    if(tmp_op=='^')
+                    {
+                        tmp = tmp_op;
+                        polsk.put(tmp);
+                    }
+                    else
+                    {
+                        oper.put(tmp_op);
                     }
 
                     break;
@@ -80,6 +90,7 @@ Queue<string> Synt::synt_analiz(string str)
                 else
                 {
                     //size2=size;
+                    
                     oper.put(tmp_op);
                     
                     break;
@@ -126,6 +137,9 @@ int prioritet_op(char op)
         break;
     case '/':
         t = 2;
+        break;
+    case '^':
+        t=3;
         break;
     case ')':
         t = 0;

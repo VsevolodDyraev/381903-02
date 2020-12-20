@@ -6,5 +6,5 @@
 class Full_a
 {
 public:
-    int full_analiz(std::string);
+    float full_analiz(std::string);
 };

@@ -12,7 +12,7 @@ bool Leks::leks_analiz(string str)
     int figur=0;
     int kvadr=0;
     
-    if(str[0]=='+'||str[0]=='-'||str[0]=='*'||str[0]=='/')
+    if(str[0]=='+'||str[0]=='-'||str[0]=='*'||str[0]=='/'||str[0]=='^')
         return false;
 
     for(int i=0;i<str.length();i++)
@@ -81,7 +81,7 @@ bool Leks::leks_analiz(string str)
             
         }
 
-        if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
+        if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/'||str[i]=='^')
         {
             if(exit)
             {

@@ -1,24 +1,90 @@
 #include "broadcast.h"
+#include <vector>
 #include <math.h>
+#include <iostream>
 
 using namespace std;
+
+
 int perevod_str_in_int(string);
 float perevod_str_in_float(string);
+string perevod_float_in_str(float);
+string perevod_int_in_str(int );
 
-int Broadcast::broadcast(Queue<string>& q1)
+float Broadcast::broadcast(Queue<string>& q1,string dlya_perem)
 {
     Stack<float> s1;
-    string tmp = {" "};
-    //q1.print();
+    vector<char> perem;
+    vector<float> znach;
+    string tmp = {""};
+    bool exit = false;
+    int z=0;
+
+    for(int i=0;i<dlya_perem.length();i++)
+    {
+        if((dlya_perem[i]<'a'||dlya_perem[i]>'z'))
+        {
+            exit = false;   
+            continue;
+        }
+        if(exit)
+            {
+                return 0.0f;
+            }
+        exit = true;
+        for(int j=0;j<perem.size();j++)
+        {
+            if(perem[j]==dlya_perem[i])
+            {
+                continue;
+            }
+            z++;
+            //cout<<dlya_perem[i]<<z<<endl;
+            perem.push_back(dlya_perem[i]);
+            break;
+        }
+        if(perem.empty())
+        {
+            
+            perem.push_back(dlya_perem[i]);
+        }
+    }
+    //cout<<perem.size()<<endl;
+
+    for(int i=0;i<perem.size();i++)
+    {
+        int tmp=0;
+        cout<<"Enter "<<perem[i]<<": ";
+        cin >> tmp;
+        znach.push_back(tmp);
+    }
+
+    //cout<<znach.size();
 
     while (!q1.isEmpty())
     {
         tmp = q1.pop();
         //cout<<tmp<<endl;
         float result=0.0f;
-        if (tmp[0] != '+' && tmp[0] != '-' && tmp[0] != '*' && tmp[0] != '/')
+        if (tmp[0] != '+' && tmp[0] != '-' && tmp[0] != '*' && tmp[0] != '/'&&tmp[0] != '^')
         {
-            int z=perevod_str_in_float(tmp);
+            float z=0.0f;
+
+            if(tmp[0]>='0'&&tmp[0]<='9')
+                z=perevod_str_in_float(tmp);
+            else
+            {
+                for(int i=0;i<perem.size();i++)
+                {
+                    if(perem[i]==tmp[0])
+                    {
+                        z=znach[i];
+                        break;
+                    }
+                }
+            }
+            
+            
             //cout<<"Z: "<<z<<endl;
             s1.put(z);
             continue;
@@ -45,15 +111,23 @@ int Broadcast::broadcast(Queue<string>& q1)
                 result = a / b;
                 s1.put(result);
                 break;
+            case '^':
+                result = exp(log(a)*b);
+                s1.put(result);
+                break;
 
             default:
                 break;
             }
+            //cout<<a<<tmp[0]<<b<<endl;
             //cout<<tmp[0]<<endl;
             //cout<<"result: "<<result<<endl;
         }
     }
-    cout<<endl;
+
+    //float d=s1.pop();    
+    //string tmp2=perevod_float_in_str(d);
+
     return s1.pop();
 }
 
@@ -65,42 +139,7 @@ int perevod_str_in_int(string str)
     int z =str.length();
     for(int i=0;i<str.length();i++)
     {
-        switch (str[i])
-        {
-        case '0':
-            s.put(0);
-            break;
-        case '1':
-            s.put(1);
-            break;
-        case '2':
-            s.put(2);
-            break;
-        case '3':
-            s.put(3);
-            break;
-        case '4':
-            s.put(4);
-            break;
-        case '5':
-            s.put(5);
-            break;
-        case '6':
-            s.put(6);
-            break;
-        case '7':
-            s.put(7);
-            break;
-        case '8':
-            s.put(8);
-            break;
-        case '9':
-            s.put(9);
-            break;
-        
-        default:
-            break;
-        }
+        s.put(static_cast<int>(str[i])-48);
     }
     int i=0;
     while(!s.isEmpty())
@@ -120,42 +159,7 @@ float perevod_str_in_float(string str)
     int z =str.length();
     for(int i=0;i<str.length();i++)
     {
-        switch (str[i])
-        {
-        case '0':
-            s.put(0.0f);
-            break;
-        case '1':
-            s.put(1.0f);
-            break;
-        case '2':
-            s.put(2.0f);
-            break;
-        case '3':
-            s.put(3.0f);
-            break;
-        case '4':
-            s.put(4.0f);
-            break;
-        case '5':
-            s.put(5.0f);
-            break;
-        case '6':
-            s.put(6.0f);
-            break;
-        case '7':
-            s.put(7.0f);
-            break;
-        case '8':
-            s.put(8.0f);
-            break;
-        case '9':
-            s.put(9.0f);
-            break;
-        
-        default:
-            break;
-        }
+        s.put(static_cast<float>(str[i])-48.0f);
     }
     int i=0;
     while(!s.isEmpty())
@@ -170,6 +174,11 @@ float perevod_str_in_float(string str)
 
 string perevod_int_in_str(int integ)
 {
+    if(integ==0)
+    {
+        string str={"0"};
+        return str;
+    }
     Stack<int> s;
     string str={""};
     int tmp=0;
@@ -184,39 +193,23 @@ string perevod_int_in_str(int integ)
     }
     while(!s.isEmpty())
     {
-        switch (s.pop())
-        {
-        case 1:
-            str+="1";
-            break;
-        case 2:
-            str+="2";
-            break;
-        case 3:
-            str+="3";
-            break;
-        case 4:
-            str+="4";
-            break;
-        case 5:
-            str+="5";
-            break;
-        case 6:
-            str+="6";
-            break;
-        case 7:
-            str+="7";
-            break;
-        case 8:
-            str+="8";
-            break;
-        case 9:
-            str+="9";
-            break;
+        str+=static_cast<char>(s.pop()+48);
         
-        default:
-            break;
-        }
     }
+    return str;
+}
+
+string perevod_float_in_str(float fl)
+{
+    string str={""};
+    int tmpZ = static_cast<int>(fl);
+    int tmpR = static_cast<int>((fl-tmpZ)*1000);
+
+    str=perevod_int_in_str(tmpZ);
+    str+=',';
+    str+=perevod_int_in_str(tmpR);
+
+    //cout<<str;
+
     return str;
 }

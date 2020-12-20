@@ -55,6 +55,8 @@ iostream
 -
 string
 -
+math.h
+-
 synt.h
 /usr/coding/lab/3/synt.h
 broadcast.h

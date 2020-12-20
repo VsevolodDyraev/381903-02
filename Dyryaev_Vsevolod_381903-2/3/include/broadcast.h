@@ -7,5 +7,5 @@
 class Broadcast
 {
 public:
-    int broadcast(Queue<std::string>&);
+    float broadcast(Queue<std::string>&,std::string);
 };
